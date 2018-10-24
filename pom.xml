@@ -74,6 +74,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>openshiftapp</finalName>
+		<finalName>ROOT</finalName>
 	</build>
 </project>
