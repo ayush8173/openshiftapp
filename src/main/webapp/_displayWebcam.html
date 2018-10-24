@@ -1,0 +1,62 @@
+<h1 class="page-header">Display Webcam</h1>
+<div class="row">
+	<div class="col-md-12">
+		<table id="webcamClientTable" class="table table-condensed">
+			<thead>
+				<tr>
+					<th>CLIENT IP</th>
+					<th>GEO LOCATION</th>
+					<th>WEBCAM FEED</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+</div>
+
+<!-- GeoLocationModal -->
+<div class="modal fade" id="geoLocationModal" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 id="geoLocationModalTitle" class="modal-title"></h4>
+			</div>
+			<div id="geoLocationModalBody" class="modal-body">
+				<div class="row">
+					<div id="geoLocationImage"
+						style="width: 600px; height: 450px; margin: 0 auto;"></div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- WebcamModal -->
+<div class="modal fade" id="webcamModal" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 id="webcamModalTitle" class="modal-title"></h4>
+			</div>
+			<div id="webcamModalBody" class="modal-body">
+				<div class="row">
+					<div style="text-align: center;">
+						<img id="webcamImage" width="600" height="450" />
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="errorMessage" class="center error-message"></div>
+<div id="successMessage" class="center success-message"></div>
+
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZwX1NkF7GxnmCgPSJJjkogRgQkAAS4Hw"></script>
+<script src="resources/app/js/displayWebcam.js"></script>
