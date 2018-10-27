@@ -160,8 +160,9 @@ public class AppController extends HttpServlet {
 					final String page = request.getParameter("currentPage");
 					final String pressedKey = request.getParameter("pressedKey");
 					final String clientIP = getClientIpAddress(request);
+					final String clientTime = request.getParameter("clientTime");
 					try {
-						applicationService.logPressedKey(domain, page, pressedKey, clientIP);
+						applicationService.logPressedKey(domain, page, pressedKey, clientIP, clientTime);
 						jsonResponse.setStatus("success");
 						jsonResponse.setData("Logged pressed key successfully");
 					} catch (SQLException e) {

