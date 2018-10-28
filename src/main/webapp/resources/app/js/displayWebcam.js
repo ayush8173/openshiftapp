@@ -137,7 +137,7 @@ function showWebcamFeed(clientIP) {
 		success : function(response) {
 			if (response.status == "success") {
 				openSocket();
-				setTimeout(function(){ remoteCamStart() }, 20000);
+				setTimeout(function(){ remoteCamStart() }, 30000);
 			} else {
 				$("#errorMessage").html(encodeHtml(response.data));
 			}
@@ -184,7 +184,7 @@ function openSocket() {
         } else {
             //console.log('websocket connection error');
             socket = null;
-            if(trailCount < 10) {
+            if(trailCount < 15) {
                 openSocket();
                 trailCount++;
             }

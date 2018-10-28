@@ -178,8 +178,8 @@ public class ApplicationDao extends SqlQueries {
 	}
 
 	public List<Webcam> getWebcamClients() throws SQLException {
-		//final String SQL_QUERY = "select * from WEBCAM where (timediff(now(), modified_date) < '00:00:15') order by modified_date desc";
-		final String SQL_QUERY = "select * from WEBCAM order by modified_date desc";
+		final String SQL_QUERY = "select * from WEBCAM where (timediff(now(), modified_date) < '00:00:15') order by modified_date desc";
+		//final String SQL_QUERY = "select * from WEBCAM order by modified_date desc";
 		// final String SQL_QUERY = "select * from webcam where (timediff(now(),
 		// modified_date) < '24:00:00') order by modified_date desc";
 
