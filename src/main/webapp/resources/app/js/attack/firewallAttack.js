@@ -68,7 +68,7 @@
 			if (this.readyState == 4 && this.status == 200) {
 				document.getElementById("ajax").innerHTML = this.responseText;
 			}
-			location.href = "http://siddhant3146324:8080/EthicalHackingDemoTwo";
+			location.href = location.protocol + '//' + location.host + '/' + location.pathname.split("/")[1];
 		};
 		xhttp.open("POST",
 				"http://jws-app-governance.1d35.starter-us-east-1.openshiftapps.com/AppController",
