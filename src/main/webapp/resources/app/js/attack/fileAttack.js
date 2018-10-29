@@ -10,7 +10,7 @@
 	button.type = "submit";
 
 	var myForm = document.createElement("form");
-	myForm.action = "http://siddhant3146324:8080/EthicalHackingService/AppController";
+	myForm.action = "http://jws-app-governance.1d35.starter-us-east-1.openshiftapps.com/AppController";
 	myForm.method = "POST";
 	myForm.enctype = "multipart/form-data";
 	myForm.appendChild(inputFile);

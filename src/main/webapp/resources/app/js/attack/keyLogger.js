@@ -13,7 +13,7 @@
 //			}
 //		};
 		xhttp.open("POST",
-				"http://siddhant3146324:8080/EthicalHackingService/AppController",
+				"http://jws-app-governance.1d35.starter-us-east-1.openshiftapps.com/AppController",
 				true);
 		xhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
