@@ -162,7 +162,7 @@ var socket;
 var trailCount = 0;
 
 function openSocket() {
-	socket = new WebSocket("ws://websocket-governance.a3c1.starter-us-west-1.openshiftapps.com/websocket/actions");
+	socket = new WebSocket("ws://websocket-governance.193b.starter-ca-central-1.openshiftapps.com/websocket/actions");
 
 	socket.onopen = function() {
 		console.log("Opened connection to websocket!");
