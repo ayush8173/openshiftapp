@@ -38,7 +38,7 @@
 								+ "')\" data-toggle='modal' data-target='#detailedKeylogModal'>"
 								+ "Detailed Keylogs</button>"
 								+"</td></tr>"
-						)
+						);
 					}
 					$("#keylogUserTable").show();
 				} else {
@@ -47,10 +47,10 @@
 			},
 			error : function(xhr) {
 				if(xhr.status == 401) {
-					if(location.hostname == 'localhost') {
-						location.href = location.protocol + '//' + location.host + '/ROOT';
-					} else {
+					if((location.hostname).endsWith("openshiftapps.com")) {
 						location.href = location.protocol + '//' + location.host;
+					} else {
+						location.href = location.protocol + '//' + location.host + '/ROOT';
 					}
 				}
 			}
@@ -105,10 +105,10 @@ function fetchKeylogs(logDate, clientIP, domain) {
 			},
 			error : function(xhr) {
 				if(xhr.status == 401) {
-					if(location.hostname == 'localhost') {
-						location.href = location.protocol + '//' + location.host + '/ROOT';
-					} else {
+					if((location.hostname).endsWith("openshiftapps.com")) {
 						location.href = location.protocol + '//' + location.host;
+					} else {
+						location.href = location.protocol + '//' + location.host + '/ROOT';
 					}
 				}
 			}
@@ -142,7 +142,7 @@ function fetchDetailedKeylogs(logDate, clientIP, domain) {
 							+ "</td><td class='col-md-3'>"
 							+ encodeHtml(keyloggedUserList[i].createdDate)
 							+"</td></tr>"
-					)
+					);
 				}
 				$("#detailedKeylogTable").show();
 			} else {
@@ -151,10 +151,10 @@ function fetchDetailedKeylogs(logDate, clientIP, domain) {
 		},
 		error : function(xhr) {
 			if(xhr.status == 401) {
-				if(location.hostname == 'localhost') {
-					location.href = location.protocol + '//' + location.host + '/ROOT';
-				} else {
+				if((location.hostname).endsWith("openshiftapps.com")) {
 					location.href = location.protocol + '//' + location.host;
+				} else {
+					location.href = location.protocol + '//' + location.host + '/ROOT';
 				}
 			}
 		}

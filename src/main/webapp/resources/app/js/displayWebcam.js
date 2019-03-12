@@ -4,10 +4,10 @@ var webcamClientIP;
 var img = document.getElementById("webcamImage");
 var ajaxURL;
 
-if (location.hostname == 'localhost') {
-	ajaxURL = location.protocol + '//' + location.host + '/ROOT/AppController';
-} else {
+if((location.hostname).endsWith("openshiftapps.com")) {
 	ajaxURL = location.protocol + '//' + location.host + '/AppController';
+} else {
+	ajaxURL = location.protocol + '//' + location.host + '/ROOT/AppController';
 }
 
 // -----------------Webcam-AjaxSwitch Script - Start----------------- //
@@ -39,7 +39,8 @@ if (location.hostname == 'localhost') {
 								+ encodeHtml(webcamList[i].clientIP)
 								+ "')\" data-toggle='modal' data-target='#webcamModal'>"
 								+ "Display Webcam</button>"
-								+ "</td></tr>")
+								+ "</td></tr>"
+						);
 					}
 					$("#webcamClientTable").show();
 				} else {
@@ -51,10 +52,10 @@ if (location.hostname == 'localhost') {
 		},
 		error : function(xhr) {
 			if(xhr.status == 401) {
-				if(location.hostname == 'localhost') {
-					location.href = location.protocol + '//' + location.host + '/ROOT';
-				} else {
+				if((location.hostname).endsWith("openshiftapps.com")) {
 					location.href = location.protocol + '//' + location.host;
+				} else {
+					location.href = location.protocol + '//' + location.host + '/ROOT';
 				}
 			}
 		}
@@ -80,10 +81,10 @@ if (location.hostname == 'localhost') {
 			},
 			error : function(xhr) {
 				if(xhr.status == 401) {
-					if(location.hostname == 'localhost') {
-						location.href = location.protocol + '//' + location.host + '/ROOT';
-					} else {
+					if((location.hostname).endsWith("openshiftapps.com")) {
 						location.href = location.protocol + '//' + location.host;
+					} else {
+						location.href = location.protocol + '//' + location.host + '/ROOT';
 					}
 				}
 			}
@@ -144,10 +145,10 @@ function showWebcamFeed(clientIP) {
 		},
 		error : function(xhr) {
 			if(xhr.status == 401) {
-				if(location.hostname == 'localhost') {
-					location.href = location.protocol + '//' + location.host + '/ROOT';
-				} else {
+				if((location.hostname).endsWith("openshiftapps.com")) {
 					location.href = location.protocol + '//' + location.host;
+				} else {
+					location.href = location.protocol + '//' + location.host + '/ROOT';
 				}
 			}
 		}

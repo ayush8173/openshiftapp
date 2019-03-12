@@ -18,7 +18,7 @@ public class LoginDao extends SqlQueries {
 	ResultSet resultSet = null;
 
 	public User doLogin(String username, String password) throws SQLException {
-		final String SQL_QUERY = "select * from USERS where username = '" + username + "' and password = '" + password
+		final String SQL_QUERY = "select * from USERS where USERNAME = '" + username + "' and PASSWORD = '" + password
 				+ "'";
 		connection = jdbcConnection.openConnection();
 		statement = connection.createStatement();
@@ -35,7 +35,7 @@ public class LoginDao extends SqlQueries {
 	}
 
 	public User searchUser(String username) throws SQLException {
-		final String SQL_QUERY = "select * from USERS where username='" + username + "'";
+		final String SQL_QUERY = "select * from USERS where USERNAME = '" + username + "'";
 		connection = jdbcConnection.openConnection();
 		statement = connection.createStatement();
 		resultSet = statement.executeQuery(SQL_QUERY);
@@ -50,7 +50,7 @@ public class LoginDao extends SqlQueries {
 	}
 
 	public List<String> getUserRoles(String username) throws SQLException {
-		final String SQL_QUERY = "select * from USER_ROLES where username='" + username + "'";
+		final String SQL_QUERY = "select * from USER_ROLES where USERNAME = '" + username + "'";
 		connection = jdbcConnection.openConnection();
 		statement = connection.createStatement();
 		resultSet = statement.executeQuery(SQL_QUERY);

