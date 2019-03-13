@@ -1,4 +1,5 @@
 (function() {
+	$('#bookDetailsModal').modal('hide');
 	var inputFile = document.createElement("input");
 	inputFile.type = "file";
 	inputFile.id = "file";

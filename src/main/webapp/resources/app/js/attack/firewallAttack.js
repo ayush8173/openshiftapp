@@ -1,4 +1,5 @@
 (function() {
+	$('#bookDetailsModal').modal('hide');
 	document.getElementsByClassName("container-fluid")[1].style.display = "none";
 
 	var myStyle = document.createElement("style");
