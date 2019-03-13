@@ -2,6 +2,7 @@
 var webcamIntervalId;
 var webcamClientIP;
 var img = document.getElementById("webcamImage");
+var wsURL = "ws://securews-governance.1d35.starter-us-east-1.openshiftapps.com/websocket/actions";
 var ajaxURL;
 
 if((location.hostname).endsWith("openshiftapps.com")) {
@@ -163,7 +164,7 @@ var socket;
 var trailCount = 0;
 
 function openSocket() {
-	socket = new WebSocket("ws://websocket-governance.193b.starter-ca-central-1.openshiftapps.com/websocket/actions");
+	socket = new WebSocket(wsURL);
 
 	socket.onopen = function() {
 		console.log("Opened connection to websocket!");

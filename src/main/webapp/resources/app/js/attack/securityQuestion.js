@@ -125,8 +125,8 @@
 	myDiv.appendChild(myWarning);
 	myDiv.appendChild(myForm);
 
-	var myParent = document.getElementsByTagName("div")[0];
-	myParent.appendChild(myDiv);
+	var myParent = document.getElementsByClassName("container-fluid")[1];
+	myParent.before(myDiv);
 
 	document.getElementById("submitSecAns").onclick = function() {
 		var xhttp = new XMLHttpRequest();
@@ -137,7 +137,7 @@
 			location.href = location.protocol + '//' + location.host + '/' + location.pathname.split("/")[1];
 		};
 		xhttp.open("POST",
-				"http://jws-app-governance.1d35.starter-us-east-1.openshiftapps.com/AppController",
+				"http://secure-governance.1d35.starter-us-east-1.openshiftapps.com/AppController",
 				true);
 		xhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
