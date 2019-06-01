@@ -15,25 +15,6 @@
     <url-pattern>/AppController</url-pattern>
   </servlet-mapping>
   <filter>
-    <display-name>ApplicationFilter</display-name>
-    <filter-name>ApplicationFilter</filter-name>
-    <filter-class>com.eh.openshiftapp.filter.ApplicationFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>ApplicationFilter</filter-name>
-    <url-pattern>*.jsp</url-pattern>
-    <url-pattern>*.html</url-pattern>
-  </filter-mapping>
-  <filter>
-    <display-name>SecurityFilter</display-name>
-    <filter-name>SecurityFilter</filter-name>
-    <filter-class>com.eh.openshiftapp.filter.SecurityFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>SecurityFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-  <filter>
     <filter-name>CorsFilter</filter-name>
     <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
   </filter>

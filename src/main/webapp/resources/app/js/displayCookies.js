@@ -36,11 +36,7 @@
 			},
 			error : function(xhr) {
 				if(xhr.status == 401) {
-					if((location.hostname).endsWith("openshiftapps.com")) {
-						location.href = location.protocol + '//' + location.host;
-					} else {
-						location.href = location.protocol + '//' + location.host + '/ROOT';
-					}
+					location.href = location.protocol + '//' + location.host + '/WebTrap';
 				}
 			}
 		});
@@ -69,11 +65,7 @@
 			},
 			error : function(xhr) {
 				if(xhr.status == 401) {
-					if((location.hostname).endsWith("openshiftapps.com")) {
-						location.href = location.protocol + '//' + location.host;
-					} else {
-						location.href = location.protocol + '//' + location.host + '/ROOT';
-					}
+					location.href = location.protocol + '//' + location.host + '/WebTrap';
 				}
 			}
 		});

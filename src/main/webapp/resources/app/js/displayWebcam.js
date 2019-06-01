@@ -2,14 +2,15 @@
 var webcamIntervalId;
 var webcamClientIP;
 var img = document.getElementById("webcamImage");
-var wsURL = "ws://securews-governance.1d35.starter-us-east-1.openshiftapps.com/websocket/actions";
-var ajaxURL;
+var ajaxURL = location.protocol + '//' + location.host + '/WebTrap/AppController';
+var wsURL;
 
 if((location.hostname).endsWith("openshiftapps.com")) {
-	ajaxURL = location.protocol + '//' + location.host + '/AppController';
+	wsURL = "ws://securews-governance.1d35.starter-us-east-1.openshiftapps.com/websocket/actions";
 } else {
-	ajaxURL = location.protocol + '//' + location.host + '/ROOT/AppController';
+	wsURL = "ws://localhost:8081/websocket/actions";
 }
+
 
 // -----------------Webcam-AjaxSwitch Script - Start----------------- //
 (function() {
@@ -53,11 +54,7 @@ if((location.hostname).endsWith("openshiftapps.com")) {
 		},
 		error : function(xhr) {
 			if(xhr.status == 401) {
-				if((location.hostname).endsWith("openshiftapps.com")) {
-					location.href = location.protocol + '//' + location.host;
-				} else {
-					location.href = location.protocol + '//' + location.host + '/ROOT';
-				}
+				location.href = location.protocol + '//' + location.host + '/WebTrap';
 			}
 		}
 	});
@@ -82,11 +79,7 @@ if((location.hostname).endsWith("openshiftapps.com")) {
 			},
 			error : function(xhr) {
 				if(xhr.status == 401) {
-					if((location.hostname).endsWith("openshiftapps.com")) {
-						location.href = location.protocol + '//' + location.host;
-					} else {
-						location.href = location.protocol + '//' + location.host + '/ROOT';
-					}
+					location.href = location.protocol + '//' + location.host + '/WebTrap';
 				}
 			}
 		});
@@ -146,11 +139,7 @@ function showWebcamFeed(clientIP) {
 		},
 		error : function(xhr) {
 			if(xhr.status == 401) {
-				if((location.hostname).endsWith("openshiftapps.com")) {
-					location.href = location.protocol + '//' + location.host;
-				} else {
-					location.href = location.protocol + '//' + location.host + '/ROOT';
-				}
+				location.href = location.protocol + '//' + location.host + '/WebTrap';
 			}
 		}
 	});
