@@ -89,38 +89,41 @@ public class AppController extends HttpServlet {
 			response.getWriter().write("File successfully stolen and saved on server!");
 		} else {
 			if ("login".equals(requestType)) {
-				final String username = request.getParameter("username");
-				final String password = request.getParameter("password");
-				try {
-					User user = loginService.doLogin(username, password);
-					if (request.getSession(false) != null) {
-						request.getSession(false).invalidate();
-						HttpSession session = request.getSession(true);
-						if (user.getUsername() != null) {
-							session.setAttribute("user", user);
-							dispatcher = request.getRequestDispatcher("home.jsp");
-							session.setAttribute("currentPage", "home.jsp");
+				if (request.getSession().getAttribute("user") != null) {
+					dispatcher = request.getRequestDispatcher("home.jsp");
+					dispatcher.forward(request, response);
+				} else {
+					final String username = request.getParameter("username");
+					final String password = request.getParameter("password");
+					try {
+						User user = loginService.doLogin(username, password);
+						if (request.getSession(false) != null) {
+							request.getSession(false).invalidate();
+							HttpSession session = request.getSession(true);
+							if (user.getUsername() != null) {
+								session.setAttribute("user", user);
+								dispatcher = request.getRequestDispatcher("home.jsp");
+								session.setAttribute("currentPage", "home.jsp");
+							} else {
+								request.setAttribute("errorMessage", "Username or password is incorrect!");
+							}
 						} else {
-							request.setAttribute("errorMessage", "Username or password is incorrect!");
+							request.setAttribute("errorMessage",
+									"Either your browser cookie is disbled or some unknown error happened!");
 						}
-					} else {
-						request.setAttribute("errorMessage",
-								"Either your browser cookie is disbled or some unknown error happened!");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						request.setAttribute("errorMessage", e.getMessage());
 					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					request.setAttribute("errorMessage", e.getMessage());
+					if (dispatcher == null) {
+						dispatcher = request.getRequestDispatcher("login.jsp");
+						request.getSession().setAttribute("currentPage", "login.jsp");
+					}
+					dispatcher.forward(request, response);
 				}
-				if (dispatcher == null) {
-					dispatcher = request.getRequestDispatcher("login.jsp");
-					request.getSession().setAttribute("currentPage", "login.jsp");
-				}
-				dispatcher.forward(request, response);
 			} else if ("logout".equals(requestType)) {
-				if (request.getSession(false) != null) {
-					request.getSession(false).invalidate();
-				}
+				request.getSession().invalidate();
 				request.setAttribute("logoutMessage", "You have been successfully logged out!");
 				dispatcher = request.getRequestDispatcher("login.jsp");
 				request.getSession().setAttribute("currentPage", "login.jsp");
